@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -17,21 +18,27 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 public class MainActivity extends AppCompatActivity {
-
+    ProgressBar pb;
+    ImageView iv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        pb = (ProgressBar)findViewById(R.id.progressBar);
+        iv = (ImageView)findViewById(R.id.imageView);
     }
 
     public void click01(View v) {
+        pb.setVisibility(View.VISIBLE);
+        iv.setVisibility(View.INVISIBLE);
         RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
         ImageRequest request = new ImageRequest("https://upload.wikimedia.org/wikipedia/en/f/f2/Ubercon_vlad_rgb_250.gif",
                 new Response.Listener<Bitmap>() {
                     @Override
                     public void onResponse(Bitmap response) {
-                        ImageView img = (ImageView) findViewById(R.id.imageView);
-                        img.setImageBitmap(response);
+                        iv.setImageBitmap(response);
+                        pb.setVisibility(View.INVISIBLE);
+                        iv.setVisibility(View.VISIBLE);
                     }
                 }, 0, 0, ImageView.ScaleType.FIT_XY, Bitmap.Config.RGB_565, new Response.ErrorListener() {
             @Override
